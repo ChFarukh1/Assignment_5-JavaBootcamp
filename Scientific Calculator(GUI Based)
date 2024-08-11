@@ -1,0 +1,212 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Stack;
+
+public class ScientificCalculator extends JFrame implements ActionListener {
+    private JTextField display;
+
+    //buttons
+    private JButton[] numberButtons = new JButton[10];
+    private JButton addButton, subButton, mulButton, divButton;
+    private JButton sinButton, cosButton, tanButton, sqrtButton;
+    private JButton logButton, lnButton, expButton, powButton;
+    private JButton clearButton, equalsButton, dotButton, delButton;
+
+    private String input = "";
+    private String operator = "";
+    private double num1, num2, result;
+
+    public ScientificCalculator() {
+       
+        setTitle("Scientific Calculator");
+        setSize(400, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+     
+        display = new JTextField();
+        display.setFont(new Font("Arial", Font.PLAIN, 24));
+        display.setEditable(false);
+        add(display, BorderLayout.NORTH);
+
+      
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(6, 4, 10, 10));
+        add(panel, BorderLayout.CENTER);
+
+        for (int i = 0; i < 10; i++) {
+            numberButtons[i] = new JButton(String.valueOf(i));
+            numberButtons[i].addActionListener(this);
+            panel.add(numberButtons[i]);
+        }
+
+        addButton = new JButton("+");
+        subButton = new JButton("-");
+        mulButton = new JButton("*");
+        divButton = new JButton("/");
+
+        //Functions
+        sinButton = new JButton("sin");
+        cosButton = new JButton("cos");
+        tanButton = new JButton("tan");
+        sqrtButton = new JButton("√");
+        logButton = new JButton("log");
+        lnButton = new JButton("ln");
+        expButton = new JButton("exp");
+        powButton = new JButton("^");
+
+   
+        clearButton = new JButton("C");
+        equalsButton = new JButton("=");
+        dotButton = new JButton(".");
+        delButton = new JButton("Del");
+
+       
+        addButton.addActionListener(this);
+        subButton.addActionListener(this);
+        mulButton.addActionListener(this);
+        divButton.addActionListener(this);
+        sinButton.addActionListener(this);
+        cosButton.addActionListener(this);
+        tanButton.addActionListener(this);
+        sqrtButton.addActionListener(this);
+        logButton.addActionListener(this);
+        lnButton.addActionListener(this);
+        expButton.addActionListener(this);
+        powButton.addActionListener(this);
+        clearButton.addActionListener(this);
+        equalsButton.addActionListener(this);
+        dotButton.addActionListener(this);
+        delButton.addActionListener(this);
+
+        panel.add(addButton);
+        panel.add(subButton);
+        panel.add(mulButton);
+        panel.add(divButton);
+        panel.add(sinButton);
+        panel.add(cosButton);
+        panel.add(tanButton);
+        panel.add(sqrtButton);
+        panel.add(logButton);
+        panel.add(lnButton);
+        panel.add(expButton);
+        panel.add(powButton);
+        panel.add(clearButton);
+        panel.add(equalsButton);
+        panel.add(dotButton);
+        panel.add(delButton);
+
+  
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        for (int i = 0; i < 10; i++) {
+            if (e.getSource() == numberButtons[i]) {
+                input += i;
+                display.setText(input);
+            }
+        }
+
+        if (e.getSource() == dotButton) {
+            input += ".";
+            display.setText(input);
+        }
+
+ 
+        if (e.getSource() == clearButton) {
+            input = "";
+            operator = "";
+            display.setText(input);
+        }
+
+        // Delete button
+        if (e.getSource() == delButton) {
+            input = input.substring(0, input.length() - 1);
+            display.setText(input);
+        }
+        if (e.getSource() == addButton) {
+            num1 = Double.parseDouble(input);
+            operator = "+";
+            input = "";
+        }
+        if (e.getSource() == subButton) {
+            num1 = Double.parseDouble(input);
+            operator = "-";
+            input = "";
+        }
+        if (e.getSource() == mulButton) {
+            num1 = Double.parseDouble(input);
+            operator = "*";
+            input = "";
+        }
+        if (e.getSource() == divButton) {
+            num1 = Double.parseDouble(input);
+            operator = "/";
+            input = "";
+        }
+        if (e.getSource() == powButton) {
+            num1 = Double.parseDouble(input);
+            operator = "^";
+            input = "";
+        }
+
+        if (e.getSource() == equalsButton) {
+            num2 = Double.parseDouble(input);
+            switch (operator) {
+                case "+" -> result = num1 + num2;
+                case "-" -> result = num1 - num2;
+                case "*" -> result = num1 * num2;
+                case "/" -> result = num1 / num2;
+                case "^" -> result = Math.pow(num1, num2);
+            }
+            display.setText(String.valueOf(result));
+            input = String.valueOf(result);
+        }
+
+        // Function button 
+        if (e.getSource() == sinButton) {
+            result = Math.sin(Math.toRadians(Double.parseDouble(input)));
+            display.setText(String.valueOf(result));
+            input = String.valueOf(result);
+        }
+        if (e.getSource() == cosButton) {
+            result = Math.cos(Math.toRadians(Double.parseDouble(input)));
+            display.setText(String.valueOf(result));
+            input = String.valueOf(result);
+        }
+        if (e.getSource() == tanButton) {
+            result = Math.tan(Math.toRadians(Double.parseDouble(input)));
+            display.setText(String.valueOf(result));
+            input = String.valueOf(result);
+        }
+        if (e.getSource() == sqrtButton) {
+            result = Math.sqrt(Double.parseDouble(input));
+            display.setText(String.valueOf(result));
+            input = String.valueOf(result);
+        }
+        if (e.getSource() == logButton) {
+            result = Math.log10(Double.parseDouble(input));
+            display.setText(String.valueOf(result));
+            input = String.valueOf(result);
+        }
+        if (e.getSource() == lnButton) {
+            result = Math.log(Double.parseDouble(input));
+            display.setText(String.valueOf(result));
+            input = String.valueOf(result);
+        }
+        if (e.getSource() == expButton) {
+            result = Math.exp(Double.parseDouble(input));
+            display.setText(String.valueOf(result));
+            input = String.valueOf(result);
+        }
+    }
+
+    public static void main(String[] args) {
+        new ScientificCalculator();
+    }
+}
